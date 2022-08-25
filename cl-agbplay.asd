@@ -1,3 +1,7 @@
+#+sb-core-compression
+(defmethod asdf:perform ((o asdf:image-op) (c asdf:system))
+  (uiop:dump-image (asdf:output-file o c) :executable t :compression t))
+
 (defsystem cl-agbplay
   :version "1.0.0"
   :author "Bohong Huang <1281299809@qq.com>"
@@ -12,5 +16,9 @@
 
 (defsystem cl-agbplay/example
   :components ((:file "example"))
-  :depends-on (#:cl-agbplay
+  :build-operation program-op
+  :build-pathname "agbplay"
+  :entry-point "agbplay-example:run-example"
+  :depends-on (#:asdf
+               #:cl-agbplay
                #:cl-raylib))
