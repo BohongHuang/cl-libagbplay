@@ -10,7 +10,7 @@
 
 (defun run-example ()
   (with-window (800 450 "cl-agbplay example")
-    (let* ((player (make-agb-player #P"rom.gba"))
+    (let* ((player (make-agb-player #P"rom.gba" :verification nil))
            (buffer (make-shareable-byte-vector (* +buffer-size+ 4 2)))
            (song-id 0)
            (song-count (agb-player-get-song-number player)))

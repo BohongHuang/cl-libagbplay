@@ -43,20 +43,23 @@
 
 (defcstruct (%agb-player-config :class agb-player-config-type)
   (buffer-size size-t)
-  (max-loop-count :int8))
+  (max-loop-count :int8)
+  (verification-enabled :bool))
 
 (defstruct agb-player-config
-  max-loop-count buffer-size)
+  max-loop-count buffer-size verification-enabled)
 
 (defmethod translate-into-foreign-memory (object (type agb-player-config-type) pointer)
   (with-foreign-slots ((buffer-size max-loop-count) pointer (:struct %agb-player-config))
     (setf buffer-size (coerce (agb-player-config-buffer-size object) 'unsigned-byte))
-    (setf max-loop-count (coerce (agb-player-config-max-loop-count object) '(signed-byte 8)))))
+    (setf max-loop-count (coerce (agb-player-config-max-loop-count object) '(signed-byte 8)))
+    (setf verification-enabled (agb-player-config-verification-enabled object))))
 
 (defmethod translate-from-foreign (pointer (type agb-player-config-type))
-  (with-foreign-slots ((buffer-size max-loop-count) pointer (:struct %agb-player-config))
+  (with-foreign-slots ((buffer-size max-loop-count verification-enabled) pointer (:struct %agb-player-config))
     (make-agb-player-config :buffer-size buffer-size
-                            :max-loop-count max-loop-count)))
+                            :max-loop-count max-loop-count
+                            :verification-enabled verification-enabled)))
 
 (defcfun "AgbPlayerCreateFromRomData" (:struct agb-player)
   (data :pointer)
@@ -69,17 +72,19 @@
 
 (defgeneric make-agb-player (object &key max-loop-count buffer-size))
 
-(defmethod make-agb-player ((path pathname) &key (max-loop-count -1) (buffer-size 8192))
+(defmethod make-agb-player ((path pathname) &key (max-loop-count -1) (buffer-size 8192) (verification t))
   (agb-player-create-from-path (namestring path)
                                (make-agb-player-config :max-loop-count max-loop-count
-                                                       :buffer-size buffer-size)))
+                                                       :buffer-size buffer-size
+                                                       :verification-enabled verification)))
 
-(defmethod make-agb-player ((rom vector) &key (max-loop-count -1) (buffer-size 8192))
+(defmethod make-agb-player ((rom vector) &key (max-loop-count -1) (buffer-size 8192) (verification t))
   (with-pointer-to-vector-data (rom-pointer rom)
     (agb-player-create-from-rom-data rom-pointer
                                      (length rom)
                                      (make-agb-player-config :max-loop-count max-loop-count
-                                                             :buffer-size buffer-size))))
+                                                             :buffer-size buffer-size
+                                                             :verification-enabled verification))))
 
 (defcfun "AgbPlayerDelete" :void
   (player (:struct agb-player)))
