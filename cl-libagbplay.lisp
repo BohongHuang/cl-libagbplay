@@ -1,6 +1,6 @@
-(defpackage cl-agbplay
+(defpackage cl-libagbplay
   (:use #:cl #:cffi)
-  (:nicknames #:agbplay)
+  (:nicknames #:libagbplay)
   (:export
    #:agb-player
    #:agb-player-delete
@@ -13,7 +13,7 @@
    #:agb-player-take-buffer
    #:make-agb-player))
 
-(in-package #:agbplay)
+(in-package #:libagbplay)
 
 (define-foreign-library libagbplay
   (:darwin "libagbplay.dylib")

@@ -1,7 +1,7 @@
-#+TITLE: cl-agbplay
+#+TITLE: cl-libagbplay
 * Usage
 1. Clone and install [[https://github.com/BohongHuang/libagbplay.git][libagbplay]] (my fork of [[https://github.com/ipatix/agbplay][agbplay]]).
 2. Clone this repository into the ~local-project~ under your Quicklisp installation folder.
-3. Load the system using ~(ql:quickload :cl-agbplay)~.
+3. Load the system using ~(ql:quickload :cl-libagbplay)~.
 4. If you want to run the example, place a GBA ROM  file named ~rom.gba~ under where you run the Lisp REPL,
-   then run ~(ql:quickload :cl-agbplay/example)~ and ~(agbplay:run-example)~ .
+   then run ~(ql:quickload :cl-libagbplay/example)~ and ~(libagbplay-example:run-example)~ .

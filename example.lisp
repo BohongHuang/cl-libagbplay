@@ -1,15 +1,15 @@
-(defpackage cl-agbplay-example
-  (:use #:cl #:agbplay #:raylib)
+(defpackage cl-libagbplay-example
+  (:use #:cl #:libagbplay #:raylib)
   (:import-from #:cffi #:make-shareable-byte-vector #:with-pointer-to-vector-data)
-  (:nicknames #:agbplay-example)
+  (:nicknames #:libagbplay-example)
   (:export #:run-example))
 
-(in-package #:agbplay-example)
+(in-package #:libagbplay-example)
 
 (defparameter +buffer-size+ 4096)
 
 (defun run-example ()
-  (with-window (800 450 "cl-agbplay example")
+  (with-window (800 450 "cl-libagbplay example")
     (let* ((player (make-agb-player #P"rom.gba" :verification nil))
            (buffer (make-shareable-byte-vector (* +buffer-size+ 4 2)))
            (song-id 0)
